@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <title>LUMYN: constellation of self</title>
+  <meta name="description" content="LUMYN: constellation of self — an interactive installation of poetry, projection, and collective light by Cam Mansanarez (Noirmak). Fort Collins Pride Festival, June 3–7, 2025." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <style>
+    /* =============================================
+       RESET + BASE
+    ============================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg:           #060818;
+      --text:         #f0ebf4;
+      --text-muted:   rgba(240, 235, 244, 0.62);
+      --text-dim:     rgba(240, 235, 244, 0.35);
+      --violet:       #a78bfa;
+      --cyan:         #67e8f9;
+      --pink:         #f9a8d4;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* =============================================
+       ANIMATED BACKGROUND
+    ============================================= */
+
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100dvh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .gradient-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      animation: gradient-drift 22s ease-in-out infinite alternate;
+    }
+
+    @keyframes gradient-drift {
+      0% {
+        background:
+          radial-gradient(ellipse 80% 60% at 18% 28%, rgba(88, 28, 135, 0.28) 0%, transparent 58%),
+          radial-gradient(ellipse 55% 50% at 82% 72%, rgba(14, 116, 144, 0.18) 0%, transparent 55%),
+          radial-gradient(ellipse 45% 55% at 50% 50%, rgba(76, 29, 149, 0.12) 0%, transparent 68%);
+      }
+      35% {
+        background:
+          radial-gradient(ellipse 65% 70% at 62% 18%, rgba(126, 34, 206, 0.22) 0%, transparent 60%),
+          radial-gradient(ellipse 80% 42% at 12% 82%, rgba(6, 182, 212, 0.15) 0%, transparent 55%),
+          radial-gradient(ellipse 55% 52% at 78% 42%, rgba(109, 40, 217, 0.15) 0%, transparent 62%);
+      }
+      68% {
+        background:
+          radial-gradient(ellipse 88% 52% at 38% 62%, rgba(139, 92, 246, 0.2) 0%, transparent 58%),
+          radial-gradient(ellipse 50% 72% at 72% 8%, rgba(103, 232, 249, 0.12) 0%, transparent 55%),
+          radial-gradient(ellipse 40% 58% at 18% 52%, rgba(167, 139, 250, 0.1) 0%, transparent 68%);
+      }
+      100% {
+        background:
+          radial-gradient(ellipse 58% 78% at 78% 38%, rgba(88, 28, 135, 0.24) 0%, transparent 60%),
+          radial-gradient(ellipse 72% 48% at 28% 78%, rgba(22, 163, 174, 0.15) 0%, transparent 55%),
+          radial-gradient(ellipse 52% 52% at 58% 22%, rgba(124, 58, 237, 0.2) 0%, transparent 68%);
+      }
+    }
+
+    /* =============================================
+       PAGE WRAPPER
+    ============================================= */
+
+    .page {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 6vw, 3.5rem);
+    }
+
+    .divider {
+      width: 48px;
+      height: 1px;
+      background: linear-gradient(to right, rgba(167, 139, 250, 0.5), transparent);
+      margin: clamp(2.5rem, 6vh, 4rem) 0;
+      opacity: 0.6;
+    }
+
+    /* =============================================
+       1. HERO
+    ============================================= */
+
+    #hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: clamp(3rem, 8vh, 6rem) clamp(1.5rem, 6vw, 3.5rem);
+    }
+
+    .hero-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.7rem, 1.4vw, 0.82rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: clamp(1.75rem, 4vh, 3rem);
+    }
+
+    .hero-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 400;
+      font-size: clamp(5.5rem, 20vw, 14rem);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 0.88;
+      color: var(--text);
+      text-shadow:
+        0 0 60px rgba(167, 139, 250, 0.18),
+        0 0 120px rgba(167, 139, 250, 0.08);
+      margin-bottom: 0.2em;
+    }
+
+    .hero-subtitle {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(1.05rem, 2.5vw, 1.5rem);
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      margin-bottom: clamp(3.5rem, 8vh, 6rem);
+    }
+
+    .hero-question {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-size: clamp(1.2rem, 2.8vw, 1.75rem);
+      color: var(--text);
+      line-height: 1.5;
+      max-width: 500px;
+      opacity: 0.9;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: clamp(2rem, 5vh, 3.5rem);
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: scroll-pulse 3.5s ease-in-out infinite;
+    }
+
+    @keyframes scroll-pulse {
+      0%, 100% { opacity: 0.25; transform: translateX(-50%) translateY(0); }
+      55%       { opacity: 0.55; transform: translateX(-50%) translateY(5px); }
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 36px;
+      background: linear-gradient(to bottom, transparent, var(--text-dim));
+    }
+
+    .scroll-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* =============================================
+       2 + 3. PROJECT DESCRIPTION
+    ============================================= */
+
+    #about {
+      padding: clamp(3rem, 8vh, 6rem) 0 clamp(1rem, 3vh, 2rem);
+    }
+
+    .description-text {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      line-height: 1.95;
+      color: var(--text-muted);
+      max-width: 640px;
+    }
+
+    .description-text + .description-text {
+      margin-top: 1.5em;
+    }
+
+    .description-text em {
+      color: var(--text);
+      font-style: italic;
+      font-family: 'Instrument Serif', serif;
+    }
+
+    /* =============================================
+       4. WHAT TO EXPECT
+    ============================================= */
+
+    #experience {
+      padding: clamp(1rem, 3vh, 2rem) 0 clamp(3rem, 8vh, 6rem);
+    }
+
+    .section-heading {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: clamp(1.25rem, 3vh, 2rem);
+    }
+
+    .section-text {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      line-height: 1.95;
+      color: var(--text-muted);
+      max-width: 600px;
+    }
+
+    .section-text + .section-text {
+      margin-top: 1.25em;
+    }
+
+    /* =============================================
+       5. EXHIBITION DETAILS
+    ============================================= */
+
+    #exhibition-details {
+      padding: clamp(2rem, 5vh, 4rem) 0 clamp(3rem, 8vh, 6rem);
+    }
+
+    .details-grid {
+      margin-top: clamp(1.5rem, 3.5vh, 2.5rem);
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .detail-row {
+      display: flex;
+      gap: 1.75rem;
+      align-items: baseline;
+      flex-wrap: wrap;
+    }
+
+    .detail-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      min-width: 72px;
+      flex-shrink: 0;
+    }
+
+    .detail-value {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+      color: var(--text-muted);
+    }
+
+    .detail-value strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .detail-placeholder {
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    /* =============================================
+       6. POEM FRAGMENT
+    ============================================= */
+
+    #poem-fragment {
+      padding: clamp(5rem, 13vh, 10rem) 0;
+      text-align: center;
+    }
+
+    .poem-text {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(1.35rem, 3.2vw, 2.1rem);
+      line-height: 2;
+      color: var(--text);
+      max-width: 460px;
+      margin: 0 auto;
+      animation: poem-breathe 9s ease-in-out infinite;
+    }
+
+    @keyframes poem-breathe {
+      0%, 100% { opacity: 0.7; }
+      50%       { opacity: 1;   }
+    }
+
+    /* =============================================
+       8. ARTIST BIO
+    ============================================= */
+
+    #artist {
+      padding: clamp(3rem, 8vh, 6rem) 0;
+    }
+
+    .artist-inner {
+      display: flex;
+      gap: clamp(2rem, 5vw, 3.5rem);
+      align-items: flex-start;
+    }
+
+    .artist-logo {
+      display: block;
+      max-width: 160px;
+      width: 100%;
+      height: auto;
+      opacity: 0.85;
+      filter: brightness(0) invert(1);
+      flex-shrink: 0;
+      margin-top: 0.25rem;
+    }
+
+    .artist-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 400;
+      font-size: clamp(1.35rem, 2.8vw, 1.75rem);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 0.2em;
+    }
+
+    .artist-alias {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      margin-bottom: clamp(1rem, 2.5vh, 1.5rem);
+    }
+
+    .artist-bio {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.9rem, 1.8vw, 1rem);
+      line-height: 1.9;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin-bottom: clamp(1.25rem, 3vh, 2rem);
+    }
+
+    .artist-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .artist-link {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.875rem;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(167, 139, 250, 0.22);
+      padding-bottom: 2px;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .artist-link:hover {
+      color: var(--text);
+      border-bottom-color: rgba(167, 139, 250, 0.65);
+    }
+
+    .artist-link:focus-visible {
+      outline: 2px solid rgba(167, 139, 250, 0.6);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* Icon-only link (Instagram) */
+    .artist-link svg {
+      display: block;
+    }
+
+    .artist-link:has(svg) {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    /* =============================================
+       9. FOOTER
+    ============================================= */
+
+    footer {
+      padding: clamp(4rem, 8vh, 6rem) 0
+               calc(clamp(3rem, 6vh, 4.5rem) + env(safe-area-inset-bottom));
+      text-align: center;
+    }
+
+    .footer-divider {
+      width: 120px;
+      height: 1px;
+      margin: 0 auto clamp(2.5rem, 5vh, 3.5rem);
+      background: linear-gradient(to right, transparent, rgba(167, 139, 250, 0.3), transparent);
+    }
+
+    .footer-poem {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+      line-height: 2;
+      color: var(--text-dim);
+    }
+
+    .footer-collaboration {
+      margin-top: clamp(2.5rem, 5vh, 4rem);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .footer-collaboration-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(240, 235, 244, 0.28);
+    }
+
+    .footer-collaboration-logo {
+      display: block;
+      max-width: 120px;
+      height: auto;
+      opacity: 0.55;
+      filter: brightness(0) invert(1);
+      transition: opacity 0.2s ease;
+    }
+
+    .footer-collaboration-logo:hover {
+      opacity: 0.8;
+    }
+
+    .footer-mark {
+      margin-top: clamp(2rem, 4vh, 3rem);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(240, 235, 244, 0.18);
+    }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+
+    @media (max-width: 580px) {
+      .artist-inner {
+        flex-direction: column;
+      }
+
+      .detail-row {
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .detail-label {
+        min-width: unset;
+      }
+    }
+
+    /* =============================================
+       REDUCED MOTION
+    ============================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+
+      .gradient-layer,
+      .poem-text,
+      .scroll-hint {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Animated star field -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <!-- Drifting gradient atmosphere -->
+  <div class="gradient-layer" aria-hidden="true"></div>
+
+  <div class="page">
+
+    <!-- ==============================
+         1. HERO
+    ============================== -->
+    <section id="hero" aria-labelledby="hero-title">
+      <p class="hero-eyebrow">An interactive installation</p>
+
+      <h1 id="hero-title" class="hero-title">LUMYN</h1>
+      <p class="hero-subtitle">constellation of self</p>
+
+      <p class="hero-question">"What is the brightest thing inside you?"</p>
+
+      <div class="scroll-hint" aria-hidden="true">
+        <div class="scroll-line"></div>
+        <span class="scroll-label">Scroll</span>
+      </div>
+    </section>
+
+    <!-- ==============================
+         2 + 3. PROJECT DESCRIPTION
+    ============================== -->
+    <section id="about" aria-label="About Lumyn">
+      <div class="container">
+        <div class="divider"></div>
+
+        <p class="description-text">
+          <em>Lumyn: Constellation of Self</em> is an interactive installation of poetry, projection, and collective light created by artist and creative technologist Cam Mansanarez (Noir Mak).
+        </p>
+
+        <p class="description-text">
+          Visitors are invited to reflect on gentle prompts about identity, tenderness, memory, and inner brightness. Their responses are transformed in real time into luminous poetry, shifting gradients, and evolving constellation systems projected throughout the gallery space.
+        </p>
+
+        <div class="divider"></div>
+
+        <p class="description-text">
+          Part digital mirror and part collective archive, Lumyn explores queer self-recognition through generative technology and immersive visuals. Each participant contributes a fragment of light to a growing public constellation, creating an evolving environment shaped by vulnerability, reflection, and presence.
+        </p>
+      </div>
+    </section>
+
+    <!-- ==============================
+         4. WHAT TO EXPECT
+    ============================== -->
+    <section id="experience" aria-labelledby="experience-heading">
+      <div class="container">
+        <div class="divider"></div>
+
+        <h2 id="experience-heading" class="section-heading">What to Expect</h2>
+
+        <p class="section-text">
+          Visitors will engage with Lumyn through a private reflection station positioned within the gallery.
+        </p>
+        <p class="section-text">
+          As responses are submitted, the surrounding projection environment transforms through color, stars, motion, and poetry. Over the course of the exhibition, the installation accumulates a collective constellation generated by the community itself.
+        </p>
+      </div>
+    </section>
+
+    <!-- ==============================
+         5. EXHIBITION DETAILS
+    ============================== -->
+    <section id="exhibition-details" aria-labelledby="details-heading">
+      <div class="container">
+        <div class="divider"></div>
+
+        <h2 id="details-heading" class="section-heading">Exhibition Details</h2>
+
+        <dl class="details-grid">
+          <div class="detail-row">
+            <dt class="detail-label">Event</dt>
+            <dd class="detail-value"><strong>Fort Collins Pride Festival</strong></dd>
+          </div>
+          <div class="detail-row">
+            <dt class="detail-label">Dates</dt>
+            <dd class="detail-value">June 3–7, 2025 &nbsp;·&nbsp; Wednesday–Sunday</dd>
+          </div>
+          <div class="detail-row">
+            <dt class="detail-label">Hours</dt>
+            <dd class="detail-value">12pm – 6pm daily</dd>
+          </div>
+          <div class="detail-row">
+            <dt class="detail-label">Venue</dt>
+            <dd class="detail-value"><strong>Center for Creativity</strong></dd>
+          </div>
+          <div class="detail-row">
+            <dt class="detail-label">Address</dt>
+            <dd class="detail-value">200 Matthews Street, Fort Collins, CO 80524</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ==============================
+         6. POEM FRAGMENT
+    ============================== -->
+    <section id="poem-fragment" aria-label="Poem fragment">
+      <div class="container">
+        <p class="poem-text">
+          what refuses to fade<br>
+          becomes its own constellation
+        </p>
+      </div>
+    </section>
+
+    <!-- ==============================
+         8. ARTIST BIO
+    ============================== -->
+    <section id="artist" aria-labelledby="artist-heading">
+      <div class="container">
+        <div class="divider"></div>
+
+        <div class="artist-inner">
+          <img
+            src="images/noirmak-logo-horizontal.png"
+            alt="Noir Mak"
+            class="artist-logo"
+          />
+
+          <div>
+            <h2 id="artist-heading" class="artist-name">Cam Mansanarez</h2>
+            <p class="artist-alias">Noir Mak</p>
+
+            <p class="artist-bio">
+              Cam Mansanarez, known artistically as Noir Mak, is a creative technologist and digital artist whose work explores queerness, identity, and the tension between human vulnerability and machine precision. Based in Colorado, Cam creates immersive visual worlds that merge generative systems, glitch aesthetics, and cyberpunk atmosphere. His practice spans live-coded performance, web-based interactive art, and computational installations that transform code into spaces of reflection, resistance, and transformation.
+            </p>
+            <p class="artist-bio">
+              Cam fuses abstraction with queer futurism to challenge traditional notions of visibility and beauty. He works with the belief that digital tools can become vessels for empowerment and self-invention, especially for marginalized communities. Through his pseudonym Noir Mak, he shapes experiences that feel both intimate and otherworldly, celebrating the radical act of being seen.
+            </p>
+            <p class="artist-bio">
+              Cam is currently completing his master's degree in Creative Technology, focusing on generative art, interactive systems, and the creative potential of emerging technologies. His recent work includes Hydra-driven live visuals, Processing-based generative animations, and browser-native art that blends data, poetry, and glitch.
+            </p>
+            <p class="artist-bio">
+              As Noir Mak, he creates art that carries rebellion and tenderness in equal measure. His work honors the poetry of glitch, the softness inside cyber aesthetics, and the idea that transformation often begins in the shadows before it becomes luminous.
+            </p>
+
+            <nav class="artist-links" aria-label="Artist social links">
+              <a href="https://www.instagram.com/noirmak" target="_blank" rel="noopener noreferrer" class="artist-link" aria-label="Noir Mak on Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                </svg>
+              </a>
+              <a href="https://noirmak.com" target="_blank" rel="noopener noreferrer" class="artist-link">noirmak.com</a>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================
+         9. FOOTER
+    ============================== -->
+    <footer>
+      <div class="container">
+        <div class="footer-divider" aria-hidden="true"></div>
+        <p class="footer-poem">
+          No two constellations are alike.<br>
+          Lumyn becomes different with every visitor.
+        </p>
+        <div class="footer-collaboration">
+          <span class="footer-collaboration-label">In collaboration with</span>
+          <img
+            src="images/focopridelogo_transparent.png"
+            alt="FoCo Pride"
+            class="footer-collaboration-logo"
+          />
+        </div>
+
+        <p class="footer-mark">© 2025 Cam Mansanarez · Noir Mak</p>
+      </div>
+    </footer>
+
+  </div><!-- /page -->
+
+  <script type="module">
+    // ============================================
+    // 3D STAR FIELD  (Three.js + GLB model)
+    // ============================================
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+    class LandingStarField {
+      constructor() {
+        this.stars      = [];
+        this.template   = null;
+        this.raycaster  = new THREE.Raycaster();
+        this.pointer    = new THREE.Vector2();
+        this._meshToStar = new Map();
+
+        this._setupRenderer();
+        this._setupScene();
+        this._loadModel().then(() => {
+          for (let i = 0; i < 5; i++) this._spawnStar();
+          this._listen();
+          this._animate();
+        });
+      }
+
+      _setupRenderer() {
+        this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+        this.renderer.setSize(innerWidth, innerHeight);
+        this.renderer.setClearColor(0x000000, 0);
+
+        const el = this.renderer.domElement;
+        Object.assign(el.style, {
+          position: 'fixed', top: '0', left: '0',
+          width: '100%', height: '100%',
+          zIndex: '0', pointerEvents: 'none'
+        });
+        el.setAttribute('aria-hidden', 'true');
+
+        // Insert between .gradient-layer and .page so stars sit above
+        // the gradient atmosphere but behind all text content
+        document.body.insertBefore(el, document.querySelector('.page'));
+      }
+
+      _setupScene() {
+        this.scene  = new THREE.Scene();
+        this.camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
+        this.camera.position.z = 5;
+
+        this.scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+
+        const d1 = new THREE.DirectionalLight(0xffffff, 1.5);
+        d1.position.set(5, 5, 5);
+        this.scene.add(d1);
+
+        const d2 = new THREE.DirectionalLight(0xa9c7ff, 0.8);
+        d2.position.set(-5, -5, 5);
+        this.scene.add(d2);
+
+        const d3 = new THREE.DirectionalLight(0xffffff, 1.0);
+        d3.position.set(0, 0, 10);
+        this.scene.add(d3);
+      }
+
+      async _loadModel() {
+        const loader = new GLTFLoader();
+        const gltf   = await new Promise((res, rej) =>
+          loader.load('assets/Star_Polyhedron_1207063528_texture.glb', res, undefined, rej)
+        );
+
+        this.template = gltf.scene;
+        this.template.traverse(child => {
+          if (child.isMesh && child.material) {
+            child.material.metalness = Math.max(child.material.metalness ?? 0, 0.7);
+            child.material.roughness = Math.min(child.material.roughness ?? 1, 0.3);
+          }
+        });
+      }
+
+      _frustum() {
+        const vFOV = THREE.MathUtils.degToRad(this.camera.fov);
+        const h    = 2 * Math.tan(vFOV / 2) * this.camera.position.z;
+        return { w: h * this.camera.aspect, h };
+      }
+
+      _spawnStar() {
+        const { w, h } = this._frustum();
+
+        const pos = new THREE.Vector3(
+          (Math.random() - 0.5) * w * 0.88,
+          (Math.random() - 0.5) * h * 0.88,
+          (Math.random() - 0.5) * 1.5
+        );
+
+        const baseScale = 0.22 + Math.random() * 0.16;
+        const mesh      = this.template.clone();
+
+        mesh.position.copy(pos);
+        mesh.scale.setScalar(0); // begin invisible; fade in during update
+        mesh.rotation.set(
+          Math.random() * Math.PI * 2,
+          Math.random() * Math.PI * 2,
+          Math.random() * Math.PI * 2
+        );
+
+        this.scene.add(mesh);
+
+        const star = {
+          mesh,
+          position:     pos.clone(),
+          velocity:     new THREE.Vector3(
+            (Math.random() - 0.5) * 0.005,
+            (Math.random() - 0.5) * 0.005,
+            0
+          ),
+          rotSpeed:     new THREE.Vector3(
+            (Math.random() - 0.5) * 0.006,
+            (Math.random() - 0.5) * 0.007,
+            (Math.random() - 0.5) * 0.004
+          ),
+          scale:        baseScale,
+          currentScale: 0,
+          born:         performance.now(),
+        };
+
+        this.stars.push(star);
+
+        // Map every child mesh → parent star for O(1) raycast lookup
+        mesh.traverse(child => {
+          if (child.isMesh) this._meshToStar.set(child, star);
+        });
+      }
+
+      _listen() {
+        // Listen at window level so the Three.js canvas can stay pointer-events:none
+        // (keeps all page links / text fully interactive)
+        window.addEventListener('click', e => this._hitTest(e.clientX, e.clientY));
+        window.addEventListener('touchend', e => {
+          const t = e.changedTouches[0];
+          this._hitTest(t.clientX, t.clientY);
+        }, { passive: true });
+
+        window.addEventListener('resize', () => {
+          this.camera.aspect = innerWidth / innerHeight;
+          this.camera.updateProjectionMatrix();
+          this.renderer.setSize(innerWidth, innerHeight);
+        });
+      }
+
+      _hitTest(clientX, clientY) {
+        this.pointer.set(
+           (clientX / innerWidth)  * 2 - 1,
+          -(clientY / innerHeight) * 2 + 1
+        );
+        this.raycaster.setFromCamera(this.pointer, this.camera);
+
+        const hits = this.raycaster.intersectObjects([...this._meshToStar.keys()]);
+        if (!hits.length) return;
+
+        const star = this._meshToStar.get(hits[0].object);
+        if (star) {
+          // Bounce the clicked star and briefly pulse its scale
+          star.velocity.multiplyScalar(-1.8);
+          const orig  = star.scale;
+          star.scale  = orig * 1.45;
+          setTimeout(() => { star.scale = orig; }, 350);
+        }
+
+        // Spawn a new star at a fresh random position
+        this._spawnStar();
+      }
+
+      _update() {
+        const now        = performance.now();
+        const { w, h }   = this._frustum();
+        const bx         = w / 2 - 0.7;
+        const by         = h / 2 - 0.7;
+
+        for (const star of this.stars) {
+          // Smooth fade-in over 800 ms
+          const fadeIn = Math.min((now - star.born) / 800, 1);
+          star.currentScale += (star.scale * fadeIn - star.currentScale) * 0.12;
+
+          star.position.add(star.velocity);
+          star.mesh.position.copy(star.position);
+
+          // Bounce off screen edges
+          if (Math.abs(star.position.x) > bx) {
+            star.velocity.x   *= -1;
+            star.position.x    = Math.sign(star.position.x) * bx;
+          }
+          if (Math.abs(star.position.y) > by) {
+            star.velocity.y   *= -1;
+            star.position.y    = Math.sign(star.position.y) * by;
+          }
+
+          star.mesh.scale.setScalar(star.currentScale);
+          star.mesh.rotation.x += star.rotSpeed.x;
+          star.mesh.rotation.y += star.rotSpeed.y;
+          star.mesh.rotation.z += star.rotSpeed.z;
+        }
+      }
+
+      _animate() {
+        requestAnimationFrame(() => this._animate());
+        this._update();
+        this.renderer.render(this.scene, this.camera);
+      }
+    }
+
+    // Only run if the user hasn't requested reduced motion
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      new LandingStarField();
+    }
+  </script>
+
+  <script>
+    // ============================================
+    // 2D PARTICLE STAR FIELD  (canvas fallback atmosphere)
+    // ============================================
+    (function () {
+      const canvas = document.getElementById('bg-canvas');
+      const ctx    = canvas.getContext('2d');
+      let stars = [], W, H, rafId;
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+
+      function buildStars(count) {
+        stars = Array.from({ length: count }, () => ({
+          x:     Math.random() * W,
+          y:     Math.random() * H,
+          r:     Math.random() * 1.1 + 0.2,
+          base:  Math.random() * 0.45 + 0.08,
+          speed: Math.random() * 0.0003 + 0.00008,
+          phase: Math.random() * Math.PI * 2,
+          drift: (Math.random() - 0.5) * 0.06,
+        }));
+      }
+
+      let frame = 0;
+      function tick() {
+        ctx.clearRect(0, 0, W, H);
+        frame++;
+
+        for (const s of stars) {
+          const pulse = Math.sin(frame * s.speed * 60 + s.phase);
+          const alpha = Math.max(0.04, Math.min(0.65, s.base + pulse * 0.1));
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(210, 200, 255, ${alpha})`;
+          ctx.fill();
+          s.x += s.drift * 0.1;
+          if (s.x >  W + 2) s.x = -2;
+          if (s.x < -2)     s.x =  W + 2;
+        }
+
+        rafId = requestAnimationFrame(tick);
+      }
+
+      resize();
+      buildStars(200);
+
+      if (!prefersReducedMotion) {
+        tick();
+      } else {
+        // Static star field — draw once, no animation
+        for (const s of stars) {
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(210, 200, 255, ${s.base})`;
+          ctx.fill();
+        }
+      }
+
+      window.addEventListener('resize', () => {
+        resize();
+        buildStars(200);
+      });
+    })();
+  </script>
+
+</body>
+</html>
