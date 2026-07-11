@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <title>Every Light That Gathered Here — LUMYN</title>
+  <meta name="description" content="Every Light That Gathered Here — the exhibition archive of LUMYN: constellation of self. Fort Collins Pride, Center for Creativity, June 3–7, 2026. An anonymous record of poems, constellations, and shared moments." />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://visit-lumyn.noirmak.com/archive.html" />
+
+  <!-- Favicon: star glyph matching the installation's visual language -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23060818'/><text y='.92em' font-size='82' text-anchor='middle' x='50' fill='white'>✦</text></svg>">
+
+  <!-- Open Graph (social link previews: iMessage, Slack, Facebook, etc.) -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://visit-lumyn.noirmak.com/archive.html" />
+  <meta property="og:title"       content="Every Light That Gathered Here — LUMYN" />
+  <meta property="og:description" content="The exhibition archive of LUMYN: constellation of self. Fort Collins Pride, Center for Creativity, June 3–7, 2026." />
+  <!-- og:image: add a 1200×630 exhibition photograph here for rich previews -->
+  <!-- <meta property="og:image" content="https://visit-lumyn.noirmak.com/images/archive-preview.jpg" /> -->
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Every Light That Gathered Here — LUMYN" />
+  <meta name="twitter:description" content="The exhibition archive of LUMYN: constellation of self. Fort Collins Pride, Center for Creativity, June 3–7, 2026." />
+  <!-- <meta name="twitter:image" content="https://visit-lumyn.noirmak.com/images/archive-preview.jpg" /> -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <script>
+    // Flag JS availability so scroll-reveal styles only hide content
+    // when the script that reveals it is actually going to run
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style>
+    /* =============================================
+       RESET + BASE
+    ============================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg:           #060818;
+      --text:         #f0ebf4;
+      --text-muted:   rgba(240, 235, 244, 0.62);
+      --text-dim:     rgba(240, 235, 244, 0.35);
+      --violet:       #a78bfa;
+      --cyan:         #67e8f9;
+      --pink:         #f9a8d4;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* =============================================
+       ANIMATED BACKGROUND
+    ============================================= */
+
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100dvh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .gradient-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      animation: gradient-drift 22s ease-in-out infinite alternate;
+    }
+
+    @keyframes gradient-drift {
+      0% {
+        background:
+          radial-gradient(ellipse 80% 60% at 18% 28%, rgba(88, 28, 135, 0.28) 0%, transparent 58%),
+          radial-gradient(ellipse 55% 50% at 82% 72%, rgba(14, 116, 144, 0.18) 0%, transparent 55%),
+          radial-gradient(ellipse 45% 55% at 50% 50%, rgba(76, 29, 149, 0.12) 0%, transparent 68%);
+      }
+      35% {
+        background:
+          radial-gradient(ellipse 65% 70% at 62% 18%, rgba(126, 34, 206, 0.22) 0%, transparent 60%),
+          radial-gradient(ellipse 80% 42% at 12% 82%, rgba(6, 182, 212, 0.15) 0%, transparent 55%),
+          radial-gradient(ellipse 55% 52% at 78% 42%, rgba(109, 40, 217, 0.15) 0%, transparent 62%);
+      }
+      68% {
+        background:
+          radial-gradient(ellipse 88% 52% at 38% 62%, rgba(139, 92, 246, 0.2) 0%, transparent 58%),
+          radial-gradient(ellipse 50% 72% at 72% 8%, rgba(103, 232, 249, 0.12) 0%, transparent 55%),
+          radial-gradient(ellipse 40% 58% at 18% 52%, rgba(167, 139, 250, 0.1) 0%, transparent 68%);
+      }
+      100% {
+        background:
+          radial-gradient(ellipse 58% 78% at 78% 38%, rgba(88, 28, 135, 0.24) 0%, transparent 60%),
+          radial-gradient(ellipse 72% 48% at 28% 78%, rgba(22, 163, 174, 0.15) 0%, transparent 55%),
+          radial-gradient(ellipse 52% 52% at 58% 22%, rgba(124, 58, 237, 0.2) 0%, transparent 68%);
+      }
+    }
+
+    /* =============================================
+       PAGE WRAPPER
+    ============================================= */
+
+    .page {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 6vw, 3.5rem);
+    }
+
+    .divider {
+      width: 48px;
+      height: 1px;
+      background: linear-gradient(to right, rgba(167, 139, 250, 0.5), transparent);
+      margin: clamp(2.5rem, 6vh, 4rem) 0;
+      opacity: 0.6;
+    }
+
+    .section-heading {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: clamp(1.25rem, 3vh, 2rem);
+    }
+
+    .section-text {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      line-height: 1.95;
+      color: var(--text-muted);
+      max-width: 600px;
+    }
+
+    .section-text + .section-text {
+      margin-top: 1.25em;
+    }
+
+    .section-text em {
+      color: var(--text);
+      font-style: italic;
+      font-family: 'Instrument Serif', serif;
+    }
+
+    /* =============================================
+       SCROLL REVEAL
+       Sections drift into place as the visitor
+       moves through the archive. When JS is absent
+       or reduced motion is requested, everything is
+       simply visible.
+    ============================================= */
+
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 1.5s ease, transform 1.5s ease;
+    }
+
+    .js .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .js .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    /* =============================================
+       1. HERO
+    ============================================= */
+
+    #hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: clamp(3rem, 8vh, 6rem) clamp(1.5rem, 6vw, 3.5rem);
+    }
+
+    .hero-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.7rem, 1.4vw, 0.82rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: clamp(1.75rem, 4vh, 3rem);
+    }
+
+    .hero-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 400;
+      font-size: clamp(2.6rem, 9vw, 6rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.08;
+      color: var(--text);
+      text-shadow:
+        0 0 60px rgba(167, 139, 250, 0.18),
+        0 0 120px rgba(167, 139, 250, 0.08);
+      margin-bottom: clamp(2rem, 5vh, 3.5rem);
+      max-width: 14em;
+    }
+
+    .hero-details {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(1.05rem, 2.5vw, 1.4rem);
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      line-height: 2;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: clamp(2rem, 5vh, 3.5rem);
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: scroll-pulse 3.5s ease-in-out infinite;
+    }
+
+    @keyframes scroll-pulse {
+      0%, 100% { opacity: 0.25; transform: translateX(-50%) translateY(0); }
+      55%       { opacity: 0.55; transform: translateX(-50%) translateY(5px); }
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 36px;
+      background: linear-gradient(to bottom, transparent, var(--text-dim));
+    }
+
+    .scroll-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* =============================================
+       2. OPENING
+    ============================================= */
+
+    #opening {
+      padding: clamp(3rem, 8vh, 6rem) 0 clamp(2rem, 5vh, 4rem);
+    }
+
+    .became-list {
+      list-style: none;
+      margin: clamp(2rem, 5vh, 3.5rem) 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9em;
+    }
+
+    .became-list li {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(1.15rem, 2.6vw, 1.55rem);
+      color: var(--text);
+      line-height: 1.5;
+      display: flex;
+      align-items: baseline;
+      gap: 0.9em;
+    }
+
+    .became-list li::before {
+      content: '✦';
+      font-style: normal;
+      font-size: 0.55em;
+      color: rgba(167, 139, 250, 0.55);
+      flex-shrink: 0;
+    }
+
+    /* =============================================
+       3. COMMUNITY HIGHLIGHTS
+       Set like museum wall labels: a large numeral,
+       a small tracked caption, one quiet line of text.
+    ============================================= */
+
+    #highlights {
+      padding: clamp(3rem, 8vh, 6rem) 0;
+    }
+
+    .stats {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(4rem, 10vh, 7rem);
+      margin-top: clamp(2rem, 5vh, 3.5rem);
+    }
+
+    .stat-number {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-size: clamp(4rem, 12vw, 7.5rem);
+      line-height: 1;
+      color: var(--text);
+      text-shadow:
+        0 0 60px rgba(167, 139, 250, 0.2),
+        0 0 120px rgba(167, 139, 250, 0.08);
+      margin-bottom: 0.35rem;
+    }
+
+    .stat-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.72rem, 1.5vw, 0.85rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: clamp(0.9rem, 2vh, 1.25rem);
+    }
+
+    .stat-note {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.92rem, 1.8vw, 1rem);
+      line-height: 1.9;
+      color: var(--text-muted);
+      max-width: 460px;
+    }
+
+    /* =============================================
+       4. THEMES
+       Not a chart — a slow constellation of words,
+       each breathing on its own rhythm.
+    ============================================= */
+
+    #themes {
+      padding: clamp(3rem, 8vh, 6rem) 0;
+      text-align: center;
+    }
+
+    #themes .section-heading,
+    #themes .section-text {
+      text-align: left;
+    }
+
+    #themes .section-text {
+      max-width: 600px;
+    }
+
+    .themes-cloud {
+      list-style: none;
+      margin: clamp(3rem, 7vh, 5rem) auto 0;
+      max-width: 680px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: baseline;
+      column-gap: clamp(1.5rem, 4vw, 2.75rem);
+      row-gap: clamp(1.1rem, 3vh, 2rem);
+    }
+
+    .themes-cloud li {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.2;
+      transform: translateY(var(--rise, 0px));
+      animation: theme-breathe var(--dur, 10s) ease-in-out var(--delay, 0s) infinite;
+    }
+
+    @keyframes theme-breathe {
+      0%, 100% { opacity: var(--dim, 0.45); }
+      50%       { opacity: 0.95; }
+    }
+
+    /* Size tiers — varied like magnitudes of stars */
+    .t1 { font-size: clamp(1.9rem, 4.5vw, 2.9rem); }
+    .t2 { font-size: clamp(1.45rem, 3.4vw, 2.1rem); --dim: 0.4; }
+    .t3 { font-size: clamp(1.15rem, 2.6vw, 1.55rem); --dim: 0.35; }
+    .t4 { font-size: clamp(0.95rem, 2vw, 1.2rem); --dim: 0.3; }
+
+    /* Occasional faint hue, like colored stars */
+    .hue-violet { color: #cabdf7; }
+    .hue-cyan   { color: #b7ecf5; }
+    .hue-pink   { color: #f5cfe3; }
+
+    /* =============================================
+       5. VOICES OF LUMYN
+       Excerpts from the generated poetry surface
+       one at a time, then dissolve.
+    ============================================= */
+
+    #voices {
+      padding: clamp(4rem, 10vh, 8rem) 0;
+      text-align: center;
+    }
+
+    .voices-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.7rem, 1.4vw, 0.82rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: clamp(2.5rem, 6vh, 4rem);
+    }
+
+    .voices-stage {
+      position: relative;
+      min-height: clamp(14rem, 34vh, 20rem);
+    }
+
+    .voice {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 2.4s ease;
+    }
+
+    .voice.active {
+      opacity: 1;
+    }
+
+    .voice p {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(1.35rem, 3.2vw, 2.1rem);
+      line-height: 1.9;
+      color: var(--text);
+      max-width: 520px;
+      margin: 0 auto;
+      quotes: '“' '”';
+    }
+
+    .voices-note {
+      margin-top: clamp(2rem, 5vh, 3rem);
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(0.78rem, 1.5vw, 0.85rem);
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+    }
+
+    /* Static fallback: reduced motion or no JS —
+       the excerpts simply rest on the page in sequence */
+    .voices-stage.static,
+    html:not(.js) .voices-stage {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(3rem, 7vh, 4.5rem);
+    }
+
+    .voices-stage.static .voice,
+    html:not(.js) .voice {
+      position: static;
+      opacity: 1;
+      transition: none;
+    }
+
+    /* =============================================
+       6 + 7. REFLECTIONS
+    ============================================= */
+
+    #exhibition-reflection,
+    #artist-reflection,
+    #privacy {
+      padding: clamp(3rem, 8vh, 6rem) 0;
+    }
+
+    .signature {
+      margin-top: clamp(1.75rem, 4vh, 2.5rem);
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: var(--text-dim);
+    }
+
+    /* =============================================
+       8. PRIVACY — "how the light was kept"
+    ============================================= */
+
+    .privacy-list {
+      list-style: none;
+      margin-top: clamp(1.75rem, 4vh, 2.75rem);
+      display: flex;
+      flex-direction: column;
+      gap: 1.4em;
+      max-width: 600px;
+    }
+
+    .privacy-list li {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.98rem, 1.9vw, 1.08rem);
+      line-height: 1.9;
+      color: var(--text-muted);
+      padding-left: 1.75em;
+      position: relative;
+    }
+
+    .privacy-list li::before {
+      content: '✦';
+      position: absolute;
+      left: 0;
+      top: 0.15em;
+      font-size: 0.7em;
+      color: rgba(167, 139, 250, 0.5);
+    }
+
+    /* =============================================
+       9. GALLERY
+    ============================================= */
+
+    #gallery {
+      padding: clamp(3rem, 8vh, 6rem) 0;
+    }
+
+    .gallery-container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 6vw, 3.5rem);
+    }
+
+    .gallery-grid {
+      margin-top: clamp(2rem, 5vh, 3.5rem);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: clamp(1.75rem, 4vw, 2.75rem) clamp(1.5rem, 3vw, 2.25rem);
+    }
+
+    .gallery-figure {
+      margin: 0;
+    }
+
+    /* Placeholder frame — replace the inner div with
+       <img src="images/..." alt="..." loading="lazy">
+       when exhibition photographs are ready */
+    .gallery-placeholder {
+      aspect-ratio: 3 / 2;
+      border: 1px solid rgba(167, 139, 250, 0.16);
+      border-radius: 2px;
+      background:
+        radial-gradient(ellipse 70% 60% at 30% 30%, rgba(88, 28, 135, 0.22) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 55% at 75% 70%, rgba(14, 116, 144, 0.14) 0%, transparent 58%),
+        rgba(240, 235, 244, 0.02);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gallery-placeholder span {
+      font-size: 1.1rem;
+      color: rgba(240, 235, 244, 0.22);
+    }
+
+    .gallery-figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 2px;
+    }
+
+    .gallery-figure figcaption {
+      margin-top: 0.9rem;
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(0.92rem, 1.8vw, 1.02rem);
+      color: var(--text-dim);
+      letter-spacing: 0.03em;
+    }
+
+    /* =============================================
+       10. CLOSING
+    ============================================= */
+
+    #closing {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: clamp(3rem, 8vh, 6rem) clamp(1.5rem, 6vw, 3.5rem)
+               calc(clamp(3rem, 8vh, 6rem) + env(safe-area-inset-bottom));
+    }
+
+    .js #closing .reveal {
+      transition-duration: 3s;
+    }
+
+    .closing-line {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(2rem, 6.5vw, 4rem);
+      line-height: 1.55;
+      color: var(--text);
+      text-shadow:
+        0 0 60px rgba(167, 139, 250, 0.2),
+        0 0 120px rgba(167, 139, 250, 0.08);
+    }
+
+    .closing-thanks {
+      margin-top: clamp(3.5rem, 9vh, 6rem);
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.92rem, 1.8vw, 1.02rem);
+      line-height: 1.9;
+      color: var(--text-muted);
+      max-width: 440px;
+    }
+
+    .closing-event {
+      margin-top: clamp(2rem, 5vh, 3rem);
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(0.7rem, 1.4vw, 0.8rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      line-height: 2.2;
+    }
+
+    .closing-return {
+      margin-top: clamp(3rem, 7vh, 4.5rem);
+    }
+
+    .closing-return a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.875rem;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(167, 139, 250, 0.22);
+      padding-bottom: 2px;
+      transition: all 0.2s ease;
+    }
+
+    .closing-return a:hover {
+      color: var(--text);
+      border-bottom-color: rgba(167, 139, 250, 0.65);
+    }
+
+    .closing-return a:focus-visible {
+      outline: 2px solid rgba(167, 139, 250, 0.6);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    .closing-mark {
+      margin-top: clamp(2.5rem, 5vh, 3.5rem);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(240, 235, 244, 0.18);
+    }
+
+    /* =============================================
+       REDUCED MOTION
+    ============================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+
+      .gradient-layer,
+      .scroll-hint,
+      .themes-cloud li {
+        animation: none !important;
+      }
+
+      .voice {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Animated star field -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <!-- Drifting gradient atmosphere -->
+  <div class="gradient-layer" aria-hidden="true"></div>
+
+  <div class="page">
+
+    <!-- ==============================
+         1. HERO
+    ============================== -->
+    <section id="hero" aria-labelledby="hero-title">
+      <p class="hero-eyebrow">Lumyn · Exhibition Archive</p>
+
+      <h1 id="hero-title" class="hero-title">Every Light<br>That Gathered Here</h1>
+
+      <p class="hero-details">
+        Fort Collins Pride<br>
+        Center for Creativity<br>
+        June 3–7, 2026
+      </p>
+
+      <div class="scroll-hint" aria-hidden="true">
+        <div class="scroll-line"></div>
+        <span class="scroll-label">Scroll</span>
+      </div>
+    </section>
+
+    <!-- ==============================
+         2. OPENING
+    ============================== -->
+    <section id="opening" aria-label="About the exhibition" class="reveal">
+      <div class="container">
+        <div class="divider"></div>
+
+        <p class="section-text">
+          For five days in early June, <em>Lumyn: Constellation of Self</em> invited visitors to pause and reflect on quiet questions — of identity, memory, kindness, resilience, joy, and queer becoming. Each reflection was offered anonymously, and each one became something more than an answer.
+        </p>
+
+        <ul class="became-list">
+          <li>a poem</li>
+          <li>a constellation</li>
+          <li>a color palette</li>
+          <li>a moment shared within the installation</li>
+        </ul>
+
+        <div class="divider"></div>
+
+        <p class="section-text">
+          No participant was ever named or identified. Every response entered the room only as light. What follows is the memory of what gathered here.
+        </p>
+      </div>
+    </section>
+
+    <!-- ==============================
+         3. COMMUNITY HIGHLIGHTS
+    ============================== -->
+    <section id="highlights" aria-labelledby="highlights-heading">
+      <div class="container">
+        <div class="divider reveal"></div>
+
+        <h2 id="highlights-heading" class="section-heading reveal">What Gathered</h2>
+
+        <div class="stats">
+          <div class="stat reveal">
+            <p class="stat-number">161</p>
+            <p class="stat-label">Poems Generated</p>
+            <p class="stat-note">
+              Each one written in response to a single anonymous reflection — appearing once in the room, then joining the constellation.
+            </p>
+          </div>
+
+          <div class="stat reveal">
+            <p class="stat-number">5</p>
+            <p class="stat-label">Days of Exhibition</p>
+            <p class="stat-note">
+              June 3 through June 7, inside the Center for Creativity, as part of Fort Collins Pride.
+            </p>
+          </div>
+
+          <div class="stat reveal">
+            <p class="stat-number">1</p>
+            <p class="stat-label">Compassion Mode Reflection</p>
+            <p class="stat-note">
+              Once during the exhibition, a reflection asked for extra care. Lumyn slowed down, softened its light, and answered with its gentlest voice.
+            </p>
+          </div>
+
+          <div class="stat reveal">
+            <p class="stat-number">Hundreds</p>
+            <p class="stat-label">of Moments Shared</p>
+            <p class="stat-note">
+              Not everything was typed. Many visitors simply stood in the light, watched the sky shift, and stayed a while.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================
+         4. THEMES THAT EMERGED
+    ============================== -->
+    <section id="themes" aria-labelledby="themes-heading">
+      <div class="container">
+        <div class="divider reveal"></div>
+
+        <h2 id="themes-heading" class="section-heading reveal">Themes That Emerged</h2>
+
+        <p class="section-text reveal">
+          Across five days of reflections, certain words kept returning — surfacing again and again in what visitors chose to share. Held together, they read like a constellation of their own.
+        </p>
+
+        <ul class="themes-cloud reveal" aria-label="Recurring themes from the archive">
+          <li class="t2"             style="--dur: 9s;  --delay: 0.4s; --rise: -4px;">Kindness</li>
+          <li class="t1 hue-violet"  style="--dur: 12s; --delay: 2.1s; --rise: 3px;">Love</li>
+          <li class="t3"             style="--dur: 10s; --delay: 4.6s; --rise: -6px;">Curiosity</li>
+          <li class="t2 hue-cyan"    style="--dur: 11s; --delay: 1.3s; --rise: 5px;">Belonging</li>
+          <li class="t4"             style="--dur: 9s;  --delay: 3.2s; --rise: -3px;">Nature</li>
+          <li class="t1"             style="--dur: 13s; --delay: 5.5s; --rise: 2px;">Joy</li>
+          <li class="t3 hue-pink"    style="--dur: 10s; --delay: 0.9s; --rise: -5px;">Friendship</li>
+          <li class="t2"             style="--dur: 12s; --delay: 2.8s; --rise: 4px;">Community</li>
+          <li class="t4 hue-violet"  style="--dur: 9s;  --delay: 4.1s; --rise: -2px;">Wonder</li>
+          <li class="t2"             style="--dur: 11s; --delay: 6.2s; --rise: 3px;">Hope</li>
+          <li class="t3"             style="--dur: 10s; --delay: 1.7s; --rise: -4px;">Growth</li>
+          <li class="t1 hue-pink"    style="--dur: 14s; --delay: 3.7s; --rise: 5px;">Queer Joy</li>
+          <li class="t3 hue-cyan"    style="--dur: 9s;  --delay: 5.1s; --rise: -3px;">Healing</li>
+          <li class="t2"             style="--dur: 12s; --delay: 0.6s; --rise: 2px;">Resilience</li>
+          <li class="t4"             style="--dur: 10s; --delay: 2.4s; --rise: -5px;">Creativity</li>
+          <li class="t2 hue-violet"  style="--dur: 11s; --delay: 4.9s; --rise: 4px;">Family</li>
+          <li class="t3"             style="--dur: 9s;  --delay: 6.6s; --rise: -2px;">Self Worth</li>
+          <li class="t2 hue-cyan"    style="--dur: 13s; --delay: 1.1s; --rise: 3px;">Connection</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ==============================
+         5. VOICES OF LUMYN
+         Excerpts from generated poems only —
+         never participant responses.
+    ============================== -->
+    <section id="voices" aria-labelledby="voices-heading">
+      <div class="container">
+        <h2 id="voices-heading" class="voices-eyebrow reveal">Voices of Lumyn</h2>
+
+        <div class="voices-stage" id="voices-stage">
+          <blockquote class="voice active">
+            <p>you are building a life<br>one acknowledgment at a time</p>
+          </blockquote>
+          <blockquote class="voice">
+            <p>the kindness of strangers<br>a light that needs no name</p>
+          </blockquote>
+          <blockquote class="voice">
+            <p>something in you remains</p>
+          </blockquote>
+          <blockquote class="voice">
+            <p>your brightness knows its own name</p>
+          </blockquote>
+          <blockquote class="voice">
+            <p>you are still here</p>
+          </blockquote>
+          <blockquote class="voice">
+            <p>the world grows brighter<br>when you let it see<br>what you have been holding</p>
+          </blockquote>
+          <blockquote class="voice">
+            <p>what you tend quietly<br>still grows</p>
+          </blockquote>
+          <blockquote class="voice">
+            <p>joy arrives<br>and does not ask permission</p>
+          </blockquote>
+          <blockquote class="voice">
+            <p>you were never too much<br>you were arriving</p>
+          </blockquote>
+          <blockquote class="voice">
+            <p>even the smallest light<br>changes the shape of the dark</p>
+          </blockquote>
+        </div>
+
+        <p class="voices-note reveal">
+          Excerpts from poems generated during the exhibition. No participant responses appear here.
+        </p>
+      </div>
+    </section>
+
+    <!-- ==============================
+         6. EXHIBITION REFLECTION
+    ============================== -->
+    <section id="exhibition-reflection" aria-labelledby="exhibition-heading" class="reveal">
+      <div class="container">
+        <div class="divider"></div>
+
+        <h2 id="exhibition-heading" class="section-heading">Five Days in June</h2>
+
+        <p class="section-text">
+          Visitors of many ages found their way to the installation. Families wandered in together. Couples sat side by side at the reflection station. Artists lingered over the projections. Children asked what the stars meant and then answered their own question. Longtime friends compared the poems they had each received, and members of the LGBTQ+ community returned across multiple days to watch the constellation grow.
+        </p>
+        <p class="section-text">
+          Pride is joyful and loud by design. Lumyn became something adjacent to that — a quiet room inside the celebration, where people stepped out of the noise for a few minutes to sit with a question. Some typed a reflection and stayed to watch it become a poem. Others simply stood in the light. Most left slowly.
+        </p>
+        <p class="section-text">
+          By the end of each day, the sky above the gallery held everything that had been offered to it. By each morning, it had let go, and began again.
+        </p>
+      </div>
+    </section>
+
+    <!-- ==============================
+         7. ARTIST REFLECTION
+    ============================== -->
+    <section id="artist-reflection" aria-labelledby="artist-heading" class="reveal">
+      <div class="container">
+        <div class="divider"></div>
+
+        <h2 id="artist-heading" class="section-heading">From the Artist</h2>
+
+        <p class="section-text">
+          <em>Lumyn</em> began as an exploration — of queer identity, of reflection, of what generative systems might hold if they were asked to hold something tender. I didn't know what it would become once it left my studio and entered a room full of strangers.
+        </p>
+        <p class="section-text">
+          What it became was quieter and larger than I expected. Watching people pause in front of the projections — breathe, smile, cry, laugh, sit in silence together — became one of the most meaningful parts of this project for me. I made a system that writes poems, but the visitors made it mean something. Every reflection someone trusted the installation with was a small act of courage, and I felt the weight of that every day.
+        </p>
+        <p class="section-text">
+          Thank you to Fort Collins Pride, to the Center for Creativity, and most of all to every person who gave a piece of their light to this constellation. It existed because you did.
+        </p>
+
+        <p class="signature">— Cam Mansanarez, Noir Mak</p>
+      </div>
+    </section>
+
+    <!-- ==============================
+         8. PRIVACY
+    ============================== -->
+    <section id="privacy" aria-labelledby="privacy-heading" class="reveal">
+      <div class="container">
+        <div class="divider"></div>
+
+        <h2 id="privacy-heading" class="section-heading">How the Light Was Kept</h2>
+
+        <p class="section-text">
+          Lumyn was built to hold reflections without holding on to the people who offered them.
+        </p>
+
+        <ul class="privacy-list">
+          <li>Every reflection was anonymous. No names were requested, and none were kept.</li>
+          <li>Motion in the space was sensed in real time and released in real time — used only to let the constellation respond to presence.</li>
+          <li>No video was stored. No facial recognition was used.</li>
+          <li>Reflections were transformed into poetry, but no poem was ever publicly attributed to anyone.</li>
+          <li>The constellation reset every day. Each morning, the sky began empty.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ==============================
+         9. GALLERY
+    ============================== -->
+    <section id="gallery" aria-labelledby="gallery-heading">
+      <div class="gallery-container">
+        <div class="divider reveal"></div>
+
+        <h2 id="gallery-heading" class="section-heading reveal">The Room, Remembered</h2>
+
+        <div class="gallery-grid">
+          <figure class="gallery-figure reveal">
+            <!-- Replace with: <img src="images/..." alt="Visitors interacting with the Lumyn installation" loading="lazy"> -->
+            <div class="gallery-placeholder" role="img" aria-label="Photograph forthcoming: visitors interacting with Lumyn">
+              <span aria-hidden="true">✦</span>
+            </div>
+            <figcaption>Visitors interacting with Lumyn</figcaption>
+          </figure>
+
+          <figure class="gallery-figure reveal">
+            <div class="gallery-placeholder" role="img" aria-label="Photograph forthcoming: the projection environment">
+              <span aria-hidden="true">✦</span>
+            </div>
+            <figcaption>The projection environment</figcaption>
+          </figure>
+
+          <figure class="gallery-figure reveal">
+            <div class="gallery-placeholder" role="img" aria-label="Photograph forthcoming: constellations generated during Pride">
+              <span aria-hidden="true">✦</span>
+            </div>
+            <figcaption>Constellations generated during Pride</figcaption>
+          </figure>
+
+          <figure class="gallery-figure reveal">
+            <div class="gallery-placeholder" role="img" aria-label="Photograph forthcoming: moments of reflection">
+              <span aria-hidden="true">✦</span>
+            </div>
+            <figcaption>Moments of reflection</figcaption>
+          </figure>
+
+          <figure class="gallery-figure reveal">
+            <div class="gallery-placeholder" role="img" aria-label="Photograph forthcoming: the reflection station">
+              <span aria-hidden="true">✦</span>
+            </div>
+            <figcaption>The reflection station</figcaption>
+          </figure>
+
+          <figure class="gallery-figure reveal">
+            <div class="gallery-placeholder" role="img" aria-label="Photograph forthcoming: the Center for Creativity during Pride">
+              <span aria-hidden="true">✦</span>
+            </div>
+            <figcaption>The Center for Creativity, June 2026</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================
+         10. CLOSING
+    ============================== -->
+    <section id="closing" aria-label="Closing">
+      <p class="closing-line reveal">
+        every light<br>
+        that gathered here,<br>
+        kept.
+      </p>
+
+      <p class="closing-thanks reveal">
+        Thank you to every visitor who shared a moment of themselves with Lumyn.
+      </p>
+
+      <p class="closing-event reveal">
+        Fort Collins Pride<br>
+        2026
+      </p>
+
+      <p class="closing-return reveal">
+        <a href="index.html">Return to Lumyn</a>
+      </p>
+
+      <p class="closing-mark reveal">© 2026 Cam Mansanarez · Noir Mak</p>
+    </section>
+
+  </div><!-- /page -->
+
+  <script>
+    // ============================================
+    // 2D PARTICLE STAR FIELD  (shared with index)
+    // ============================================
+    (function () {
+      const canvas = document.getElementById('bg-canvas');
+      const ctx    = canvas.getContext('2d');
+      let stars = [], W, H;
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+
+      function buildStars(count) {
+        stars = Array.from({ length: count }, () => ({
+          x:     Math.random() * W,
+          y:     Math.random() * H,
+          r:     Math.random() * 1.1 + 0.2,
+          base:  Math.random() * 0.45 + 0.08,
+          speed: Math.random() * 0.0003 + 0.00008,
+          phase: Math.random() * Math.PI * 2,
+          drift: (Math.random() - 0.5) * 0.06,
+        }));
+      }
+
+      let frame = 0;
+      function tick() {
+        ctx.clearRect(0, 0, W, H);
+        frame++;
+
+        for (const s of stars) {
+          const pulse = Math.sin(frame * s.speed * 60 + s.phase);
+          const alpha = Math.max(0.04, Math.min(0.65, s.base + pulse * 0.1));
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(210, 200, 255, ${alpha})`;
+          ctx.fill();
+          s.x += s.drift * 0.1;
+          if (s.x >  W + 2) s.x = -2;
+          if (s.x < -2)     s.x =  W + 2;
+        }
+
+        requestAnimationFrame(tick);
+      }
+
+      resize();
+      buildStars(200);
+
+      if (!prefersReducedMotion) {
+        tick();
+      } else {
+        // Static star field — draw once, no animation
+        for (const s of stars) {
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(210, 200, 255, ${s.base})`;
+          ctx.fill();
+        }
+      }
+
+      window.addEventListener('resize', () => {
+        resize();
+        buildStars(200);
+      });
+    })();
+  </script>
+
+  <script>
+    // ============================================
+    // SCROLL REVEAL + ROTATING POEM EXCERPTS
+    // ============================================
+    (function () {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // --- Scroll reveal -------------------------
+      const revealEls = document.querySelectorAll('.reveal');
+
+      if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+        revealEls.forEach(el => el.classList.add('visible'));
+      } else {
+        const observer = new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          }
+        }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
+
+        revealEls.forEach(el => observer.observe(el));
+      }
+
+      // --- Voices of Lumyn -----------------------
+      // One excerpt at a time, dissolving slowly into
+      // the next. With reduced motion, all excerpts
+      // rest on the page as a quiet list instead.
+      const stage  = document.getElementById('voices-stage');
+      const voices = stage ? Array.from(stage.querySelectorAll('.voice')) : [];
+
+      if (stage && voices.length > 1) {
+        if (prefersReducedMotion) {
+          stage.classList.add('static');
+          voices.forEach(v => v.classList.add('active'));
+        } else {
+          let index = 0;
+          const HOLD_MS = 8500; // time each excerpt rests before dissolving
+
+          setInterval(() => {
+            voices[index].classList.remove('active');
+            index = (index + 1) % voices.length;
+            voices[index].classList.add('active');
+          }, HOLD_MS);
+        }
+      }
+    })();
+  </script>
+
+</body>
+</html>
