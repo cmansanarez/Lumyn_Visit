@@ -343,6 +343,50 @@
       font-style: italic;
     }
 
+    .details-archive {
+      margin-top: clamp(2rem, 5vh, 3rem);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.1rem;
+    }
+
+    .details-archive-note {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(0.95rem, 1.9vw, 1.1rem);
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+    }
+
+    .archive-button {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.72rem, 1.5vw, 0.8rem);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.9em 1.9em;
+      border: 1px solid rgba(167, 139, 250, 0.3);
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+
+    .archive-button:hover {
+      color: var(--text);
+      border-color: rgba(167, 139, 250, 0.65);
+      box-shadow: 0 0 24px rgba(167, 139, 250, 0.12);
+    }
+
+    .archive-button:focus-visible {
+      outline: 2px solid rgba(167, 139, 250, 0.6);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
     /* =============================================
        6. POEM FRAGMENT
     ============================================= */
@@ -688,6 +732,11 @@
             <dd class="detail-value">200 Matthews Street, Fort Collins, CO 80524</dd>
           </div>
         </dl>
+
+        <div class="details-archive">
+          <p class="details-archive-note">This exhibition has concluded.</p>
+          <a href="archive.html" class="archive-button">Visit the Archive&nbsp;&nbsp;✦</a>
+        </div>
       </div>
     </section>
 
